@@ -55,19 +55,8 @@ app.use(function(req, res, next){
 /requests/:userId/reject  = userController.isLogin, userControllers.getRejectFriendsRequest
 
 */
-
+app.post('/login', userController.getLogin);
+app.get('/signup', userController.postSignup);
 app.listen('3000', function(){
   console.log("Server at port 3000");
 });
-
-
-
-
-
-
-
-
-
-
-
-
