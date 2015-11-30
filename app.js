@@ -24,7 +24,7 @@ app.use(session({
   saveUninitialized: true,
   secret: "2hjkeydwjfhusdifsb",
   store: new MongoStore({
-    url:"mongodb://localhost:27017/blog",
+    url:"mongodb://localhost:27017/socialfly",
     autoReconnect: true
   })
 }));
@@ -35,14 +35,17 @@ app.use(function(req, res, next){
   next();
 });
 
+var userController = require('./controllers/userController');
+var homeController = require('./controllers/homeController');
+
 //Routes
 /*
 
 /                       = userController.isLogin,homeController.getHome
-/login                  = userController.getLogin
-/login                  = usercontrollerl.postLogin ---> home or login
-/signup                 = userController.getSignup
-/signup                 = userController.postSignup  ---> home or signup
+/login                  = userController.getLogin -- Surya
+/login                  = usercontrollerl.postLogin ---> home or login -- Darshn
+/signup                 = userController.getSignup -- Darshan
+/signup                 = userController.postSignup  ---> home or signup -- Surya
 /logout                 = userController.getLogout
 /profile/:username      = userController.isLogin,userController.getProfile
 /search                 = userController.getProfiles
@@ -55,8 +58,14 @@ app.use(function(req, res, next){
 /requests/:userId/reject  = userController.isLogin, userControllers.getRejectFriendsRequest
 
 */
+app.get('/',homeController.getHome);
+
 app.post('/login', userController.getLogin);
+app.get('/login',userController.getLogin);
+
 app.get('/signup', userController.postSignup);
+app.post('/signup',userController.postSignUp);
+
 app.listen('3000', function(){
   console.log("Server at port 3000");
 });

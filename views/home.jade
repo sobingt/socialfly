@@ -1,9 +1,9 @@
 extends layout
 
-block content
-  form(method="POST")
-    input(type="text" name="email" placeholder="Email")
-    br
-    input(type="password" name="password" placeholder="password")
-    br
-    input(type="submit" name="Submit" value="Login")
+block vars
+    var title = Home
+
+block body
+    h1 SocialFly
+
+    p Welcome to the SocialFly, Please <a href="/login">Login</a> or <a href="/signup">Signup</a>

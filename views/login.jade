@@ -1,0 +1,17 @@
+extends layout
+
+block vars
+    var title = 'Login'
+
+block body
+    h1 Login to your Account
+    br
+    form(method = "post")
+        span Email
+        input(type= "text",name="email",required=true)
+        br
+        span Password
+        input(type="password",name="password",required=true)
+        br
+        br
+        input(type="submit")
