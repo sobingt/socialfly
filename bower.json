@@ -1,0 +1,25 @@
+{
+  "name": "socialfly",
+  "version": "1.0.0",
+  "homepage": "https://github.com/sobingt/socialfly",
+  "authors": [
+    "Sobin George Thomas <sobingt@gmail.com>"
+  ],
+  "description": "Social Network",
+  "main": "index.html",
+  "keywords": [
+    "social",
+    "network"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

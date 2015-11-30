@@ -9,6 +9,9 @@ var MongoStore = require('connect-mongo')(session);
 
 var app = express();
 
+var userController = require('./controllers/user');
+var homeController = require('./controllers/home');
+
 mongoose.connect("mongodb://localhost:27017/socialfly");
 mongoose.connection.on('error',function(){
   console.log("Mongo Error in connection");
@@ -35,18 +38,11 @@ app.use(function(req, res, next){
   next();
 });
 
-var userController = require('./controllers/userController');
-var homeController = require('./controllers/homeController');
 
 //Routes
 /*
 
 /                       = userController.isLogin,homeController.getHome
-/login                  = userController.getLogin -- Surya
-/login                  = usercontrollerl.postLogin ---> home or login -- Darshn
-/signup                 = userController.getSignup -- Darshan
-/signup                 = userController.postSignup  ---> home or signup -- Surya
-/logout                 = userController.getLogout
 /profile/:username      = userController.isLogin,userController.getProfile
 /search                 = userController.getProfiles
     username= Similar to the username
@@ -62,10 +58,13 @@ app.get('/',homeController.getHome);
 
 app.post('/login', userController.getLogin);
 app.get('/login',userController.getLogin);
-
-app.get('/signup', userController.postSignup);
+app.get('/auth/facebook',userController.getFacebookLogin);
+app.get('/auth/facebook/callback',userController.getFacebookLoginCallback, function(req, res){
+  res.redirect('/');
+});
+app.get('/signup', userController.getSignUp);
 app.post('/signup',userController.postSignUp);
-
+app.get('/logout', userController.getLogout);
 app.listen('3000', function(){
   console.log("Server at port 3000");
 });

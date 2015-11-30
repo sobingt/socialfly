@@ -1,8 +1,13 @@
 block vars
 doctype html
 html(lang="en")
-html
     head
         title SocialFly | #{title}
+        link(rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.css")
+        link(rel="stylesheet" href="css/style.css")
     body
-        block body
+        block content
+        script(type="text/javascript" src="/vendor/jquery/dist/jquery.js")
+        script(type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.js")
+        script(type="text/javascript" src="/js/main.js")
