@@ -9,13 +9,13 @@ nav.navbar.navbar-default
         span.icon-bar
       a.navbar-brand(href='/') SocialFly
     ul.nav.navbar-nav.navbar-right
-      if(!user)
+      if(!currentUser)
         li
           a(href='/login') Login
         li
           a(href='/signup') Signup
       else
         li
-          a(href='/profile/#{user.username}') #{user.fullName}
+          a(href='/profile/#{currentUser.username}') #{currentUser.email}
         
 

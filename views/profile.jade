@@ -11,20 +11,16 @@ block content
       p #{user.email}
       if(!requestee)
         a.btn.btn-primary(href="/requests/#{user._id}") Add as Friend
-      else
-        p Friend Request
-        a.btn.btn-primary(href="/requests/#{user._id}/accept") Accept
-        a.btn.btn-primary(href="/requests/#{user._id}/reject") Reject
-      if(user.friends)
+      if(user.friends[0])
         p Friends
         each friend in user.friends
           a #{friend}
-      if(user.requests)
+      if(user.requests[0])
         p Requests
         each request in user.requests
           p #{request}
-            a(href="/requests/#{request}/accept") Accept &nbsp;
-            a(href="/requests/#{request}/reject") Reject
+            a.btn.btn-primary(href="/requests/#{user._id}/accept") Accept
+            a.btn.btn-primary(href="/requests/#{user._id}/reject") Reject
       
 
     

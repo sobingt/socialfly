@@ -78,8 +78,12 @@ exports.getProfile = function(req, res){
   User.findOne({username: req.params.username}, function(err, user){
     if(err)
       return next(err);
+    var requestee = false;
+    if(req.user._id.toString()==user._id.toString())
+      requestee = true;
     res.render('profile',{
-      user: user
+      user: user,
+      requestee : requestee
     });
   });
 };
@@ -124,7 +128,7 @@ exports.getAcceptFriendsRequest = function(req, res, next){
       user.save();
     res.redirect('/');
   });
-}
+};
 
 exports.getRejectFriendsRequest = function(req, res, next){
   User.findById(req.user._id, function(err, user){
@@ -137,8 +141,27 @@ exports.getRejectFriendsRequest = function(req, res, next){
       user.save();
     res.redirect('/');
   });
-}
+};
 
+function getUsernameById(id){
+  User.findById(id,function(err, user){
+    if(err)
+      return next(err);
+    if(!user)
+      return 0;
+    return user.username;
+  });
+};
+
+function getIdByUsername(username){
+  User.findOne({username: username},function(err, user){
+    if(err)
+      return next(err);
+    if(!user)
+      return 0;
+    return user._id;
+  });
+};
 
 
 
