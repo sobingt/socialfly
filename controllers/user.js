@@ -22,7 +22,7 @@ exports.postLogin = function(req, res, next){
         return next(err);
       res.redirect('/');
     });
-  });
+  })(req, res, next);
 };
 
 //Facebook login
@@ -48,8 +48,7 @@ exports.getSignUp = function(req, res, next){
 };
 
 exports.postSignUp = function(req,res){
-    var user = new User
-    ({
+    var user = new User({
         fullName: req.body.name,
         username: req.body.username,
         email:req.body.email,
@@ -60,7 +59,7 @@ exports.postSignUp = function(req,res){
         var error;
         if (!err)
         {
-            res.redirect('/home');
+            res.redirect('/');
 
         }
         else if(err.code === 11000)
@@ -74,3 +73,81 @@ exports.postSignUp = function(req,res){
     });
 
 };
+
+exports.getProfile = function(req, res){
+  User.findOne({username: req.params.username}, function(err, user){
+    if(err)
+      return next(err);
+    res.render('profile',{
+      user: user
+    });
+  });
+};
+
+exports.isLogin = function(req, res, next){
+  if(req.user)
+    next();
+  else
+    res.redirect('/login');
+};
+
+exports.getSendFriendsRequest = function(req, res, next){
+  User.findById(req.params.userId, function(err, user){
+    if(err)
+      return next(err);
+    var found = false;
+    for(var i; i< user.requests.length; i++){
+      if(user.requests[i]==req.user._id)
+        found = true;
+    }
+    if(!found)
+      user.requests.push(req.params.userId);
+    user.save();
+    res.redirect('/profile/abc');  
+  });
+}
+
+exports.getAcceptFriendsRequest = function(req, res, next){
+  User.findById(req.params.userId, function(err, user){
+    if(err)
+      return next(err);
+    for(var i; i<  req.user.requests.length; i++){
+      if( req.user.requests[i]==req.params.userId)
+      {
+        user.friends.push(req.user._id);
+        user.requests.splice(i,1);
+         req.user.friends.push(req.params.userId);
+        req.user.save();
+      }
+      
+    }
+      user.save();
+    res.redirect('/');
+  });
+}
+
+exports.getRejectFriendsRequest = function(req, res, next){
+  User.findById(req.user._id, function(err, user){
+    if(err)
+      return next(err);
+    for(var i; i< user.requests.length; i++){
+      if(user.requests[i]==req.params.userId)
+        user.requests.splice(i,1);
+    }
+      user.save();
+    res.redirect('/');
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -42,8 +42,6 @@ app.use(function(req, res, next){
 //Routes
 /*
 
-/                       = userController.isLogin,homeController.getHome
-/profile/:username      = userController.isLogin,userController.getProfile
 /search                 = userController.getProfiles
     username= Similar to the username
 /friends                = userController.isLogin, userController.getFriends
@@ -56,7 +54,7 @@ app.use(function(req, res, next){
 */
 app.get('/',homeController.getHome);
 
-app.post('/login', userController.getLogin);
+app.post('/login', userController.postLogin);
 app.get('/login',userController.getLogin);
 app.get('/auth/facebook',userController.getFacebookLogin);
 app.get('/auth/facebook/callback',userController.getFacebookLoginCallback, function(req, res){
@@ -65,6 +63,14 @@ app.get('/auth/facebook/callback',userController.getFacebookLoginCallback, funct
 app.get('/signup', userController.getSignUp);
 app.post('/signup',userController.postSignUp);
 app.get('/logout', userController.getLogout);
+app.get('/profile/:username',userController.getProfile)
+app.get('/requests/:userId',userController.isLogin, userController.getSendFriendsRequest);
+app.get('/requests/:userId/accept',userController.isLogin, userController.getAcceptFriendsRequest);
+app.get('/requests/:userId/reject',userController.isLogin, userController.getRejectFriendsRequest);
 app.listen('3000', function(){
   console.log("Server at port 3000");
 });
+
+
+
+

@@ -20,9 +20,6 @@ passport.use(new LocalStrategies({usernameField: 'email'},function(email, passwo
   User.findOne({email: email}, function(err, user){
     if(err)
       return err;
-    console.log('user.password');
-    console.log(user.password);
-    console.log(password);
     user.comparePassword(password, function(err, isMatch){
       if(isMatch)
         return done(null,user);

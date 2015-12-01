@@ -7,7 +7,10 @@ html(lang="en")
         link(rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.css")
         link(rel="stylesheet" href="css/style.css")
     body
-        block content
+        include ./partials/nav.jade
+        include ./partials/flash.jade
+        .container
+          block content
         script(type="text/javascript" src="/vendor/jquery/dist/jquery.js")
         script(type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.js")
         script(type="text/javascript" src="/js/main.js")

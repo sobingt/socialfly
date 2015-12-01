@@ -1,9 +1,22 @@
 extends layout
 
 block content
+  h1 Signup Form
   form(method="POST")
+    label(for="email")
+      | Email : 
     input(type="text" name="email" placeholder="Email")
     br
-    input(type="password" name="password" placeholder="password")
+    label(for="fullName")
+      | FullName : 
+    input(type="text" name="fullName" placeholder="Full Name")
+    br
+    label(for="username")
+      | Username : 
+    input(type="text" name="username" placeholder="Username")
+    br
+    label(for="password")
+      | Password : 
+    input(type="password" name="password" placeholder="Password")
     br
     input(type="submit" name="submit")
