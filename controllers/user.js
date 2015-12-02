@@ -75,15 +75,36 @@ exports.postSignUp = function(req,res){
 };
 
 exports.getProfile = function(req, res){
+/*
+  
   User.findOne({username: req.params.username}, function(err, user){
+
+*/ 
+    //call the callback function using exeec
+  User.findOne({username: req.params.username})
+  .populate('requests')
+  .populate('friends')
+  .exec(function(err, user){
     if(err)
       return next(err);
+    if(!user)
+      res.redirect('/');
+    var loggedUser = false;
     var requestee = false;
-    if(req.user._id.toString()==user._id.toString())
-      requestee = true;
+    if(req.user)
+    {
+      if(req.user._id.toString()==user._id.toString())
+        loggedUser = true;
+      for(var i=0; i<user.requests.length; i++)
+      {
+        if(req.user._id.toString()==user.requests[i]._id.toString())
+         requestee = true;
+      }
+    }
     res.render('profile',{
       user: user,
-      requestee : requestee
+      loggedUser : loggedUser,
+      requestee: requestee
     });
   });
 };
@@ -96,7 +117,7 @@ exports.isLogin = function(req, res, next){
 };
 
 exports.getSendFriendsRequest = function(req, res, next){
-  User.findById(req.params.userId, function(err, user){
+  User.findOne({username: req.params.username}, function(err, user){
     if(err)
       return next(err);
     var found = false;
@@ -105,29 +126,38 @@ exports.getSendFriendsRequest = function(req, res, next){
         found = true;
     }
     if(!found)
-      user.requests.push(req.params.userId);
+      user.requests.push(req.user._id);
     user.save();
-    res.redirect('/profile/abc');  
+    res.redirect('/profile/'+user.username);  
   });
 }
 
 exports.getAcceptFriendsRequest = function(req, res, next){
-  User.findById(req.params.userId, function(err, user){
+  User.findOne({username: req.params.username})
+    .exec(function(err, user){
     if(err)
       return next(err);
-    for(var i; i<  req.user.requests.length; i++){
-      if( req.user.requests[i]==req.params.userId)
-      {
-        user.friends.push(req.user._id);
-        user.requests.splice(i,1);
-         req.user.friends.push(req.params.userId);
-        req.user.save();
-      }
-      
+    var found = false;
+    for(var i; i< user.friends.length; i++){
+      if(user.friends[i]==req.user._id)
+        found = true;
     }
+
+    for(var i=0; i<req.user.requests.length; i++)
+    {
+      if(req.user.requests[i].toString()==user._id)
+        req.user.requests.splice(i,1);
+    }
+    if(!found)
+    {
+      user.requests.push(req.user._id);
       user.save();
-    res.redirect('/');
+      req.user.friends.push(user._id);
+      req.user.save();
+    }
+    res.redirect("/profile/"+req.user.username);
   });
+  
 };
 
 exports.getRejectFriendsRequest = function(req, res, next){
@@ -159,7 +189,7 @@ function getIdByUsername(username){
       return next(err);
     if(!user)
       return 0;
-    return user._id;
+    return user.username;
   });
 };
 

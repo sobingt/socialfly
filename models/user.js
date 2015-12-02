@@ -13,8 +13,8 @@ var userSchema = new mongoose.Schema({
   facebook: String, //facebook ID
   google: String,
   token : Array,
-  requests: Array,
-  friends: Array
+  requests: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
+  friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
 

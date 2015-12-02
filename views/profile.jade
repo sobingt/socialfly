@@ -9,18 +9,20 @@ block content
       img(src="#{profilePic}")
       p #{user.fullName}
       p #{user.email}
-      if(!requestee)
-        a.btn.btn-primary(href="/requests/#{user._id}") Add as Friend
+      if(!loggedUser && !requestee)
+        a.btn.btn-primary(href="/requests/#{user.username}") Add as Friend
+      if(requestee)
+        a.btn.btn-primary(href="#") Request Send
       if(user.friends[0])
         p Friends
         each friend in user.friends
-          a #{friend}
-      if(user.requests[0])
+           a(href="/profile/#{friend.username}") #{friend.username}
+      if( user.requests[0] && loggedUser)
         p Requests
         each request in user.requests
-          p #{request}
-            a.btn.btn-primary(href="/requests/#{user._id}/accept") Accept
-            a.btn.btn-primary(href="/requests/#{user._id}/reject") Reject
+          a(href="/profile/#{request.username}") #{request.username}
+            a.btn.btn-primary(href="/requests/#{request.username}/accept") Accept
+            a.btn.btn-primary(href="/requests/#{request.username}/reject") Reject
       
 
     

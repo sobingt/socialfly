@@ -64,9 +64,9 @@ app.get('/signup', userController.getSignUp);
 app.post('/signup',userController.postSignUp);
 app.get('/logout', userController.getLogout);
 app.get('/profile/:username',userController.getProfile)
-app.get('/requests/:userId',userController.isLogin, userController.getSendFriendsRequest);
-app.get('/requests/:userId/accept',userController.isLogin, userController.getAcceptFriendsRequest);
-app.get('/requests/:userId/reject',userController.isLogin, userController.getRejectFriendsRequest);
+app.get('/requests/:username',userController.isLogin, userController.getSendFriendsRequest);
+app.get('/requests/:username/accept',userController.isLogin, userController.getAcceptFriendsRequest);
+app.get('/requests/:username/reject',userController.isLogin, userController.getRejectFriendsRequest);
 app.listen('3000', function(){
   console.log("Server at port 3000");
 });
